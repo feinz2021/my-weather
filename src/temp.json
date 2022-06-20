@@ -1,0 +1,153 @@
+{
+    "data": {
+        "metadata": {
+            "resultset": {
+                "count": 163,
+                "offset": 150,
+                "limit": 50,
+                "locationcategoryid": "DISTRICT"
+            }
+        },
+        "results": [
+            {
+                "id": "LOCATION:106",
+                "name": "GOMBAK",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:15",
+                "latitude": 3.3,
+                "longitude": 101.7
+            },
+            {
+                "id": "LOCATION:108",
+                "name": "HULU SELANGOR",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:15",
+                "latitude": 3.5,
+                "longitude": 101.58333
+            },
+            {
+                "id": "LOCATION:109",
+                "name": "KLANG",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:15",
+                "latitude": 3.0430916,
+                "longitude": 101.4413921
+            },
+            {
+                "id": "LOCATION:113",
+                "name": "SABAK BERNAM",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:15",
+                "latitude": 3.58333,
+                "longitude": 101.11667
+            },
+            {
+                "id": "LOCATION:112",
+                "name": "PETALING",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:15",
+                "latitude": 3.10726,
+                "longitude": 101.60671
+            },
+            {
+                "id": "LOCATION:120",
+                "name": "MARANG",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:16",
+                "latitude": 5.2056,
+                "longitude": 103.2059
+            },
+            {
+                "id": "LOCATION:118",
+                "name": "KEMAMAN",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:16",
+                "latitude": 4.1557225,
+                "longitude": 103.3222106
+            },
+            {
+                "id": "LOCATION:116",
+                "name": "DUNGUN",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:16",
+                "latitude": 4.775,
+                "longitude": 103.4162
+            },
+            {
+                "id": "LOCATION:436",
+                "name": "KUALA NERUS",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:16",
+                "latitude": 5.367765,
+                "longitude": 103.033576
+            },
+            {
+                "id": "LOCATION:119",
+                "name": "KUALA TERENGGANU",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:16",
+                "latitude": 5.3302,
+                "longitude": 103.1408
+            },
+            {
+                "id": "LOCATION:117",
+                "name": "HULU TERENGGANU",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:16",
+                "latitude": 5.0773524,
+                "longitude": 102.8202438
+            },
+            {
+                "id": "LOCATION:121",
+                "name": "SETIU",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:16",
+                "latitude": 5.55008,
+                "longitude": 102.73551
+            },
+            {
+                "id": "LOCATION:115",
+                "name": "BESUT",
+                "locationcategoryid": "DISTRICT",
+                "locationrootid": "LOCATION:16",
+                "latitude": 5.57107,
+                "longitude": 102.51911
+            }
+        ]
+    },
+    "status": 200,
+    "statusText": "",
+    "headers": {
+        "cache-control": "max-age=86400",
+        "content-length": "1986",
+        "content-type": "application/json"
+    },
+    "config": {
+        "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
+        },
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "env": {
+            "FormData": null
+        },
+        "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "Authorization": "METToken 79a6cd59e081e56a1aea2335888829e118dfa29b"
+        },
+        "method": "get",
+        "url": "https://api.met.gov.my/v2.1/locations?locationcategoryid=DISTRICT&offset=150"
+    },
+    "request": "[object XMLHttpRequest]"
+}
