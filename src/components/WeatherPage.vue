@@ -1,6 +1,22 @@
 <template>
   <div class="container">
-    <pre>{{ temp[3] }}</pre>
+    <!-- <pre>{{ temp }}</pre> -->
+
+    <table>
+      <thead>
+        <tr>
+          <th>Location ID</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr v-for="locationID in temp" v-bind:key="locationID">
+          <td>{{ locationID.id }}</td>
+          <td>{{ locationID.name }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -53,7 +69,13 @@ export default {
 
     Promise.all([promise1, promise2, promise3, promise4])
       .then((res) => {
-        this.temp = res;
+        for (let i = 0; i < 4; +i++) {
+          let resultsLength = res[i].data.results.length;
+          console.log(resultsLength);
+          for (let j = 0; j < resultsLength; j++) {
+            this.temp.push(res[i].data.results[j]);
+          }
+        }
       })
       .catch((error) => {
         console.error(error);
