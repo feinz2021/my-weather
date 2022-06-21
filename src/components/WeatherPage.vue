@@ -4,6 +4,7 @@
     <button class="btn" @click="getDataTypes()">Get Data Types</button>
     <br />
 
+    <!-- generalforecast -->
     <table>
       <thead>
         <tr>
@@ -31,6 +32,7 @@
       </tbody>
     </table>
 
+    <!-- datatype -->
     <table>
       <thead>
         <tr>
@@ -50,20 +52,40 @@
       </tbody>
     </table>
 
-    <table>
+    <!-- location -->
+    <!-- <table>
       <thead>
         <tr>
-          <th>Location ID</th>
-          <th>Name</th>
+          <th>id</th>
+          <th>name</th>
+          <th>locationcategoryid</th>
+          <th>locationrootid</th>
+          <th>latitude</th>
+          <th>longitude</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="locationID in location" v-bind:key="locationID">
-          <td>{{ locationID.id }}</td>
-          <td>{{ locationID.name }}</td>
+        <tr v-for="id in location" v-bind:key="id">
+          <td>{{ id.id }}</td>
+          <td>{{ id.name }}</td>
+          <td>{{ id.locationcategoryid }}</td>
+          <td>{{ id.locationrootid }}</td>
+          <td>{{ id.latitude }}</td>
+          <td>{{ id.longitude }}</td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
+
+    <vue3-simple-typeahead
+      id="typeahead_id"
+      placeholder="Taip Lokasi..."
+      :items="this.locationNameList"
+      :minInputLength="1"
+      :itemProjection="itemProjectionFunction"
+      @selectItem="locationSelected"
+    >
+    </vue3-simple-typeahead>
+    <label id="typeahead_id">Taip Lokasi⬆️</label>
   </div>
 </template>
 
@@ -72,13 +94,48 @@ import axios from "axios";
 export default {
   data() {
     return {
+      // basic
       location: [],
+      locationNameList: [],
       generalForecast: [],
       headerToken: {},
       dataTypes: [],
+
+      locationIdSave: "",
+      dateSave: "",
     };
   },
   methods: {
+    locationSelected(a) {
+      // this.senaraiDaerah = [];
+      // localStorage.setItem("negeriSave", a);
+
+      const result = this.location.find(({ name }) => name === a);
+      this.locationIdSave = result;
+      console.log(result.id);
+
+      localStorage.setItem("locationIdSave", result);
+
+      axios
+        .get(
+          "https://api.met.gov.my/v2/data?datasetid=FORECAST&datacategoryid=GENERAL&locationid=LOCATION:246&start_date=2022-06-21&end_date=2022-06-21",
+          {
+            headers: this.headerToken,
+          }
+        )
+        .then((res) => {
+          for (let i = 0; i < 4; +i++) {
+            let resultsLength = res.data.results.length;
+            console.log(resultsLength);
+            for (let j = 0; j < resultsLength; j++) {
+              this.generalForecast.push(res.data.results[j]);
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     getGeneralForecast() {
       axios
         .get(
@@ -122,6 +179,14 @@ export default {
   mounted() {
     window.M.AutoInit();
 
+    const nowDate = new Date();
+    this.dateSave =
+      nowDate.getFullYear() +
+      "-" +
+      (nowDate.getMonth() + 1) +
+      "-" +
+      nowDate.getDate();
+
     this.headerToken = {
       Authorization: `METToken 79a6cd59e081e56a1aea2335888829e118dfa29b`,
     };
@@ -142,7 +207,6 @@ export default {
     const promise2 = axios.get(URL2, header);
     const promise3 = axios.get(URL3, header);
     const promise4 = axios.get(URL4, header);
-    // const promise5 = axios.get(URL5, header);
 
     Promise.all([promise1, promise2, promise3, promise4])
       .then((res) => {
@@ -151,6 +215,7 @@ export default {
           console.log(resultsLength);
           for (let j = 0; j < resultsLength; j++) {
             this.location.push(res[i].data.results[j]);
+            this.locationNameList.push(res[i].data.results[j].name);
           }
         }
       })
