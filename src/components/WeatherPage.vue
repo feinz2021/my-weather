@@ -7,14 +7,15 @@
     <!-- searchbox -->
     <vue3-simple-typeahead
       id="typeahead_id"
-      placeholder="Taip Lokasi..."
+      placeholder="Type Here..."
       :items="this.locationNameList"
       :minInputLength="1"
-      :itemProjection="itemProjectionFunction"
       @selectItem="locationSelected"
     >
     </vue3-simple-typeahead>
-    <label id="typeahead_id">Taip Lokasi⬆️</label>
+    <label id="typeahead_id">Type Here⬆️</label>
+
+    {{ temp }}
 
     <!-- generalforecast -->
     <table>
@@ -39,7 +40,7 @@
           <td>{{ id.value }}</td>
           <td>{{ id.latitude }}</td>
           <td>{{ id.longitude }}</td>
-          <td>{{ id.attributes }}</td>
+          <td>{{ id.attributes.when }}</td>
         </tr>
       </tbody>
     </table>
@@ -104,6 +105,8 @@ export default {
 
       locationIdSave: "",
       todayDateSave: "",
+
+      temp: "",
     };
   },
   methods: {
@@ -112,7 +115,7 @@ export default {
 
       const result = this.location.find(({ name }) => name === a);
       this.locationIdSave = result.id;
-      console.log(result.id);
+      // console.log(result.id);
 
       localStorage.setItem("locationIdSave", result.id);
 
@@ -130,10 +133,11 @@ export default {
         )
         .then((res) => {
           let resultsLength = res.data.results.length;
-          console.log(resultsLength);
+          // console.log(resultsLength);
           for (let j = 0; j < resultsLength; j++) {
             this.generalForecast.push(res.data.results[j]);
           }
+          // this.temp = this.generalForecast[0].value;
         })
         .catch((error) => {
           console.error(error);
@@ -149,7 +153,7 @@ export default {
         )
         .then((res) => {
           let resultsLength = res.data.results.length;
-          console.log(resultsLength);
+          // console.log(resultsLength);
           for (let j = 0; j < resultsLength; j++) {
             this.generalForecast.push(res.data.results[j]);
           }
@@ -164,12 +168,10 @@ export default {
           headers: this.headerToken,
         })
         .then((res) => {
-          for (let i = 0; i < 4; +i++) {
-            let resultsLength = res.data.results.length;
-            console.log(resultsLength);
-            for (let j = 0; j < resultsLength; j++) {
-              this.dataTypes.push(res.data.results[j]);
-            }
+          let resultsLength = res.data.results.length;
+          // console.log(resultsLength);
+          for (let j = 0; j < resultsLength; j++) {
+            this.dataTypes.push(res.data.results[j]);
           }
         })
         .catch((error) => {
@@ -213,7 +215,7 @@ export default {
       .then((res) => {
         for (let i = 0; i < 4; +i++) {
           let resultsLength = res[i].data.results.length;
-          console.log(resultsLength);
+          // console.log(resultsLength);
           for (let j = 0; j < resultsLength; j++) {
             this.location.push(res[i].data.results[j]);
             this.locationNameList.push(res[i].data.results[j].name);
