@@ -26,7 +26,7 @@
           <td>{{ id.value }}</td>
           <td>{{ id.latitude }}</td>
           <td>{{ id.longitude }}</td>
-          <td>{{ id.attributes.code }}</td>
+          <td>{{ id.attributes }}</td>
         </tr>
       </tbody>
     </table>
