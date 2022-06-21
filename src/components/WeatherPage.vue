@@ -4,6 +4,18 @@
     <button class="btn" @click="getDataTypes()">Get Data Types</button>
     <br />
 
+    <!-- searchbox -->
+    <vue3-simple-typeahead
+      id="typeahead_id"
+      placeholder="Taip Lokasi..."
+      :items="this.locationNameList"
+      :minInputLength="1"
+      :itemProjection="itemProjectionFunction"
+      @selectItem="locationSelected"
+    >
+    </vue3-simple-typeahead>
+    <label id="typeahead_id">Taip Lokasi⬆️</label>
+
     <!-- generalforecast -->
     <table>
       <thead>
@@ -33,7 +45,7 @@
     </table>
 
     <!-- datatype -->
-    <table>
+    <!-- <table>
       <thead>
         <tr>
           <th>id</th>
@@ -50,7 +62,7 @@
           <td>{{ id.datacategoryid }}</td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
 
     <!-- location -->
     <!-- <table>
@@ -75,17 +87,6 @@
         </tr>
       </tbody>
     </table> -->
-
-    <vue3-simple-typeahead
-      id="typeahead_id"
-      placeholder="Taip Lokasi..."
-      :items="this.locationNameList"
-      :minInputLength="1"
-      :itemProjection="itemProjectionFunction"
-      @selectItem="locationSelected"
-    >
-    </vue3-simple-typeahead>
-    <label id="typeahead_id">Taip Lokasi⬆️</label>
   </div>
 </template>
 
@@ -102,34 +103,36 @@ export default {
       dataTypes: [],
 
       locationIdSave: "",
-      dateSave: "",
+      todayDateSave: "",
     };
   },
   methods: {
     locationSelected(a) {
-      // this.senaraiDaerah = [];
-      // localStorage.setItem("negeriSave", a);
+      this.generalForecast = [];
 
       const result = this.location.find(({ name }) => name === a);
-      this.locationIdSave = result;
+      this.locationIdSave = result.id;
       console.log(result.id);
 
-      localStorage.setItem("locationIdSave", result);
+      localStorage.setItem("locationIdSave", result.id);
 
       axios
         .get(
-          "https://api.met.gov.my/v2/data?datasetid=FORECAST&datacategoryid=GENERAL&locationid=LOCATION:246&start_date=2022-06-21&end_date=2022-06-21",
+          "https://api.met.gov.my/v2/data?datasetid=FORECAST&datacategoryid=GENERAL&locationid=" +
+            this.locationIdSave +
+            "&start_date=" +
+            this.todayDateSave +
+            "&end_date=" +
+            this.todayDateSave,
           {
             headers: this.headerToken,
           }
         )
         .then((res) => {
-          for (let i = 0; i < 4; +i++) {
-            let resultsLength = res.data.results.length;
-            console.log(resultsLength);
-            for (let j = 0; j < resultsLength; j++) {
-              this.generalForecast.push(res.data.results[j]);
-            }
+          let resultsLength = res.data.results.length;
+          console.log(resultsLength);
+          for (let j = 0; j < resultsLength; j++) {
+            this.generalForecast.push(res.data.results[j]);
           }
         })
         .catch((error) => {
@@ -145,12 +148,10 @@ export default {
           }
         )
         .then((res) => {
-          for (let i = 0; i < 4; +i++) {
-            let resultsLength = res.data.results.length;
-            console.log(resultsLength);
-            for (let j = 0; j < resultsLength; j++) {
-              this.generalForecast.push(res.data.results[j]);
-            }
+          let resultsLength = res.data.results.length;
+          console.log(resultsLength);
+          for (let j = 0; j < resultsLength; j++) {
+            this.generalForecast.push(res.data.results[j]);
           }
         })
         .catch((error) => {
@@ -180,7 +181,7 @@ export default {
     window.M.AutoInit();
 
     const nowDate = new Date();
-    this.dateSave =
+    this.todayDateSave =
       nowDate.getFullYear() +
       "-" +
       (nowDate.getMonth() + 1) +
