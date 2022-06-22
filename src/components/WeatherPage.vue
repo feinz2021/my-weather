@@ -273,8 +273,10 @@ export default {
         return "thunderstorm";
       } else if (a === "Widespread thunderstorms") {
         return "thunderstorm";
+      } else if (a === "Scattered thunderstorms") {
+        return "thunderstorm";
       } else {
-        return "wb_sunny";
+        return "warning";
       }
     },
   },
