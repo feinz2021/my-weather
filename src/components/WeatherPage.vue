@@ -58,89 +58,63 @@
         <!-- Modal Trigger -->
 
         <div class="row">
-          <div class="col">
+          <!-- temperature -->
+          <div class="col s12 m12 l3">
             <div
               class="modal-trigger"
-              style="cursor: pointer; font-size: 600%; color: white"
+              style="cursor: pointer; color: white"
               href="#modalLocation"
             >
-              {{ temperature }}°C
+              <div class="center" style="font-size: 600%">{{ maxTemp }}°</div>
+              <div class="center" style="font-size: 400%">{{ minTemp }}°</div>
             </div>
+          </div>
+
+          <!-- location & time -->
+          <div class="col s12 m12 l3">
+            <div
+              class="center"
+              id="district"
+              style="color: white; font-size: x-large; margin-top: 20px"
+            >
+              {{ district }},
+            </div>
+            <div
+              class="center"
+              id="state"
+              style="color: white; font-size: large"
+            >
+              {{ state }}
+            </div>
+            <div class="center" style="color: white; margin-top: 20px">
+              {{ todayDateDisplay }}
+            </div>
+            <div
+              class="center"
+              style="color: white; margin-top: 20px; font-size: large"
+            >
+              <span class="material-icons-round">warning</span>
+              <br />
+              {{ dailySignificantWeather }}
+            </div>
+          </div>
+
+          <!-- morning -->
+          <div class="col s12 m12 l2">
+            {{ dailyMorning }}
+          </div>
+          <!-- afternoon -->
+          <div class="col s12 m12 l2">
+            {{ dailyAfternoon }}
+          </div>
+          <!-- night -->
+          <div class="col s12 m12 l2">
+            {{ dailyNight }}
           </div>
         </div>
 
-        <!-- generalforecast -->
-        <!-- <table>
-          <thead>
-            <tr>
-              <th>locationrootname</th>
-              <th>locationname</th>
-              <th>date</th>
-              <th>datatype</th>
-              <th>value</th>
-              <th>latitude</th>
-              <th>longitude</th>
-              <th>attributes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="id in generalForecast" v-bind:key="id">
-              <td>{{ id.locationrootname }}</td>
-              <td>{{ id.locationname }}</td>
-              <td>{{ id.date }}</td>
-              <td>{{ id.datatype }}</td>
-              <td>{{ id.value }}</td>
-              <td>{{ id.latitude }}</td>
-              <td>{{ id.longitude }}</td>
-              <td>{{ id.attributes.when }}</td>
-            </tr>
-          </tbody>
-        </table> -->
+        <!-- ----- -->
       </div>
-
-      <!-- datatype -->
-      <!-- <table>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>datasetid</th>
-          <th>datacategoryid</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="id in dataTypes" v-bind:key="id">
-          <td>{{ id.id }}</td>
-          <td>{{ id.name }}</td>
-          <td>{{ id.datasetid }}</td>
-          <td>{{ id.datacategoryid }}</td>
-        </tr>
-      </tbody>
-    </table> -->
-
-      <!-- location -->
-      <!-- <table>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>name</th>
-          <th>locationcategoryid</th>
-          <th>locationrootid</th>
-          <th>latitude</th>
-          <th>longitude</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="id in location" v-bind:key="id">
-          <td>{{ id.id }}</td>
-          <td>{{ id.name }}</td>
-          <td>{{ id.locationcategoryid }}</td>
-          <td>{{ id.locationrootid }}</td>
-          <td>{{ id.latitude }}</td>
-          <td>{{ id.longitude }}</td>
-        </tr>
-      </tbody>
-    </table> -->
     </div>
   </body>
 </template>
@@ -164,24 +138,24 @@ export default {
       // loading animation
       loading: false,
 
-      // modalClose
-      modalClose: "",
-
       // dashboard display
-      temperature: 31,
-      minTemp: 23,
-      maxTemp: 31,
-      locationDashboard: "wilayah persekutuan, kuala lumpur",
-      dailySignificantWeather: "ribut petir",
-      dailyMorning: "ok",
-      dailyAfternoon: "ok",
-      dailyNight: "ribut petir",
+      // temperature: "0",
+      minTemp: "",
+      maxTemp: "",
+      dailySignificantWeather: "",
+      dailyMorning: "",
+      dailyAfternoon: "",
+      dailyNight: "",
+      state: "",
+      district: "",
+      todayDateDisplay: "",
 
       temp: "",
     };
   },
   methods: {
     locationSelected(a) {
+      // close the modal after location is selected
       let elem = document.getElementById("modalLocation");
       let instance = window.M.Modal.getInstance(elem);
       instance.close();
@@ -192,10 +166,12 @@ export default {
 
       const result = this.location.find(({ name }) => name === a);
       this.locationIdSave = result.id;
-      // console.log(result.id);
 
       localStorage.setItem("locationIdSave", result.id);
 
+      this.generalForecastFunc();
+    },
+    generalForecastFunc() {
       axios
         .get(
           "https://api.met.gov.my/v2/data?datasetid=FORECAST&datacategoryid=GENERAL&locationid=" +
@@ -217,47 +193,50 @@ export default {
           // this.temp = this.generalForecast[0].value;
           this.loading = false;
         })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    getGeneralForecast() {
-      axios
-        .get(
-          "https://api.met.gov.my/v2/data?datasetid=FORECAST&datacategoryid=GENERAL&locationid=LOCATION:246&start_date=2022-06-21&end_date=2022-06-21",
-          {
-            headers: this.headerToken,
-          }
-        )
-        .then((res) => {
-          let resultsLength = res.data.results.length;
-          // console.log(resultsLength);
-          for (let j = 0; j < resultsLength; j++) {
-            this.generalForecast.push(res.data.results[j]);
-          }
+        .then(() => {
+          this.dailyMorning = this.generalForecast.find(
+            ({ datatype }) => datatype === "FGM"
+          ).value;
+          this.dailyAfternoon = this.generalForecast.find(
+            ({ datatype }) => datatype === "FGA"
+          ).value;
+          this.dailyNight = this.generalForecast.find(
+            ({ datatype }) => datatype === "FGN"
+          ).value;
+          this.maxTemp = this.generalForecast.find(
+            ({ datatype }) => datatype === "FMAXT"
+          ).value;
+          this.minTemp = this.generalForecast.find(
+            ({ datatype }) => datatype === "FMINT"
+          ).value;
+          this.dailySignificantWeather = this.generalForecast.find(
+            ({ datatype }) => datatype === "FSIGW"
+          ).value;
+          this.state = this.generalForecast[0].locationrootname;
+          this.district = this.generalForecast[0].locationname;
         })
         .catch((error) => {
           console.error(error);
         });
     },
-    getDataTypes() {
-      axios
-        .get("https://api.met.gov.my/v2.1/datatypes", {
-          headers: this.headerToken,
-        })
-        .then((res) => {
-          let resultsLength = res.data.results.length;
-          // console.log(resultsLength);
-          for (let j = 0; j < resultsLength; j++) {
-            this.dataTypes.push(res.data.results[j]);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    numberSuffix(i) {
+      let j = i % 10,
+        k = i % 100;
+      if (j == 1 && k != 11) {
+        return i + "st";
+      }
+      if (j == 2 && k != 12) {
+        return i + "nd";
+      }
+      if (j == 3 && k != 13) {
+        return i + "rd";
+      }
+      return i + "th";
     },
   },
   mounted() {
+    const a = process.env.VUE_APP_TESTING;
+    console.log(a);
     window.M.AutoInit();
 
     const nowDate = new Date();
@@ -268,9 +247,22 @@ export default {
       "-" +
       nowDate.getDate();
 
+    this.todayDateDisplay =
+      this.numberSuffix(nowDate.getDate()) +
+      " " +
+      nowDate.toLocaleString("default", { month: "long" }) +
+      ", " +
+      nowDate.getFullYear();
+
     this.headerToken = {
       Authorization: `METToken 79a6cd59e081e56a1aea2335888829e118dfa29b`,
     };
+
+    let locationHistory = localStorage.getItem("locationIdSave");
+    if (locationHistory) {
+      this.locationIdSave = locationHistory;
+      this.generalForecastFunc();
+    }
 
     let URL1 =
       "https://api.met.gov.my/v2.1/locations?locationcategoryid=DISTRICT";
