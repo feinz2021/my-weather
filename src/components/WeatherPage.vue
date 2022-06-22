@@ -1,41 +1,56 @@
 <template>
   <body style="background-color: green; position: absolute">
+    <div
+      v-if="loading === true"
+      style="
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        background-color: black;
+        z-index: 9;
+      "
+    >
+      <div
+        v-if="loading === true"
+        class="lds-ripple"
+        style="margin-left: 46%; margin-top: 40vh"
+      >
+        <div></div>
+        <div></div>
+      </div>
+    </div>
     <div class="container">
       <!-- <button class="btn" @click="getGeneralForecast()">General Forecast</button>
     <button class="btn" @click="getDataTypes()">Get Data Types</button>
     <br /> -->
 
       <div class="card-panel" style="margin-top: 40px">
-        <!-- searchbox -->
-        <vue3-simple-typeahead
-          id="typeahead_id"
-          placeholder="Type Here..."
-          :items="this.locationNameList"
-          :minInputLength="1"
-          @selectItem="locationSelected"
-        >
-        </vue3-simple-typeahead>
-        <label id="typeahead_id">Type Here⬆️</label>
-
         {{ temp }}
 
         <span class="material-icons">cloud</span>
-
-        <!-- Dropdown Trigger -->
-        <a class="dropdown-trigger btn" href="#" data-target="dropdown1"
-          >Drop Me!</a
+        <!-- Modal Trigger -->
+        <a
+          class="waves-effect waves-light btn modal-trigger"
+          href="#modalLocation"
+          >Modal</a
         >
 
-        <!-- Dropdown Structure -->
-        <ul id="dropdown1" class="dropdown-content">
-          <li
-            v-for="location in locationNameList"
-            :key="location"
-            @click="locationSelected(location)"
-          >
-            {{ location }}
-          </li>
-        </ul>
+        <!-- Modal Structure -->
+        <div id="modalLocation" class="modal">
+          <div class="modal-content">
+            <h4>Enter Location</h4>
+            <!-- searchbox -->
+            <vue3-simple-typeahead
+              id="typeahead_id"
+              placeholder="Type Here..."
+              :items="this.locationNameList"
+              :minInputLength="1"
+              @selectItem="locationSelected"
+            >
+            </vue3-simple-typeahead>
+            <label id="typeahead_id">Type Here⬆️</label>
+          </div>
+        </div>
 
         <!-- generalforecast -->
         <table>
@@ -129,11 +144,23 @@ export default {
       todayDateSave: "",
       locationDropdown: "",
 
+      // loading animation
+      loading: false,
+
+      // modalClose
+      modalClose: "",
+
       temp: "",
     };
   },
   methods: {
     locationSelected(a) {
+      let elem = document.getElementById("modalLocation");
+      let instance = window.M.Modal.getInstance(elem);
+      instance.close();
+
+      this.loading = true;
+
       this.generalForecast = [];
 
       const result = this.location.find(({ name }) => name === a);
@@ -161,6 +188,7 @@ export default {
             this.generalForecast.push(res.data.results[j]);
           }
           // this.temp = this.generalForecast[0].value;
+          this.loading = false;
         })
         .catch((error) => {
           console.error(error);
@@ -256,5 +284,52 @@ export default {
 body {
   width: 100%;
   height: 100vh;
+}
+
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
 }
 </style>
