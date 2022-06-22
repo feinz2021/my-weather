@@ -6,7 +6,7 @@
         position: absolute;
         width: 100%;
         height: 100vh;
-        background-color: black;
+        background-color: rgba(0, 0, 0, 0.7);;
         z-index: 9;
       "
     >
@@ -149,6 +149,16 @@ export default {
 
       // modalClose
       modalClose: "",
+
+      // dashboard display
+      temperature: 0,
+      minTemp: 0,
+      maxTemp: 0,
+      locationDashboard: "",
+      dailySignificantWeather: "",
+      dailyMorning: "",
+      dailyAfternoon: "",
+      dailyNight: "",
 
       temp: "",
     };
