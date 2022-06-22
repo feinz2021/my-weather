@@ -1,12 +1,17 @@
 <template>
-  <body style="background-color: green; position: absolute">
+  <body
+    style="
+      background-image: linear-gradient(to bottom right, #80cbc4, #e0f2f1);
+      position: absolute;
+    "
+  >
     <div
       v-if="loading === true"
       style="
         position: absolute;
         width: 100%;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.7);;
+        background-color: rgba(0, 0, 0, 0.7);
         z-index: 9;
       "
     >
@@ -23,37 +28,49 @@
       <!-- <button class="btn" @click="getGeneralForecast()">General Forecast</button>
     <button class="btn" @click="getDataTypes()">Get Data Types</button>
     <br /> -->
+      <!-- Modal Structure -->
+      <div id="modalLocation" class="modal">
+        <div class="modal-content">
+          <h4>Enter Location</h4>
+          <!-- searchbox -->
+          <vue3-simple-typeahead
+            id="typeahead_id"
+            placeholder="Type Here..."
+            :items="this.locationNameList"
+            :minInputLength="1"
+            @selectItem="locationSelected"
+          >
+          </vue3-simple-typeahead>
+          <label id="typeahead_id">Type Here⬆️</label>
+        </div>
+      </div>
 
-      <div class="card-panel" style="margin-top: 40px">
-        {{ temp }}
+      <div
+        class="card-panel"
+        style="
+          margin-top: 40px;
+          background-image: linear-gradient(to bottom right, #43a047, #a5d6a7);
+        "
+      >
+        <!-- {{ temp }} -->
 
-        <span class="material-icons">cloud</span>
+        <!-- <span class="material-icons">cloud</span> -->
         <!-- Modal Trigger -->
-        <a
-          class="waves-effect waves-light btn modal-trigger"
-          href="#modalLocation"
-          >Modal</a
-        >
 
-        <!-- Modal Structure -->
-        <div id="modalLocation" class="modal">
-          <div class="modal-content">
-            <h4>Enter Location</h4>
-            <!-- searchbox -->
-            <vue3-simple-typeahead
-              id="typeahead_id"
-              placeholder="Type Here..."
-              :items="this.locationNameList"
-              :minInputLength="1"
-              @selectItem="locationSelected"
+        <div class="row">
+          <div class="col">
+            <div
+              class="modal-trigger"
+              style="cursor: pointer; font-size: 600%; color: white"
+              href="#modalLocation"
             >
-            </vue3-simple-typeahead>
-            <label id="typeahead_id">Type Here⬆️</label>
+              {{ temperature }}°C
+            </div>
           </div>
         </div>
 
         <!-- generalforecast -->
-        <table>
+        <!-- <table>
           <thead>
             <tr>
               <th>locationrootname</th>
@@ -78,7 +95,7 @@
               <td>{{ id.attributes.when }}</td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
 
       <!-- datatype -->
@@ -151,14 +168,14 @@ export default {
       modalClose: "",
 
       // dashboard display
-      temperature: 0,
-      minTemp: 0,
-      maxTemp: 0,
-      locationDashboard: "",
-      dailySignificantWeather: "",
-      dailyMorning: "",
-      dailyAfternoon: "",
-      dailyNight: "",
+      temperature: 31,
+      minTemp: 23,
+      maxTemp: 31,
+      locationDashboard: "wilayah persekutuan, kuala lumpur",
+      dailySignificantWeather: "ribut petir",
+      dailyMorning: "ok",
+      dailyAfternoon: "ok",
+      dailyNight: "ribut petir",
 
       temp: "",
     };
