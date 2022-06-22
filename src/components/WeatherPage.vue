@@ -25,13 +25,18 @@
       </div>
     </div>
     <div class="container">
-      <!-- <button class="btn" @click="getGeneralForecast()">General Forecast</button>
-    <button class="btn" @click="getDataTypes()">Get Data Types</button>
-    <br /> -->
       <!-- Modal Structure -->
-      <div id="modalLocation" class="modal">
-        <div class="modal-content">
-          <h4>Enter Location</h4>
+      <div
+        id="modalLocation"
+        class="modal"
+        style="
+          width: 400px;
+          height: 400px;
+          background-image: linear-gradient(to bottom right, #43a047, #c8e6c9);
+        "
+      >
+        <div class="modal-content" style="height: 350px; color: white">
+          <h5 class="center">Set Location</h5>
           <!-- searchbox -->
           <vue3-simple-typeahead
             id="typeahead_id"
@@ -39,9 +44,10 @@
             :items="this.locationNameList"
             :minInputLength="1"
             @selectItem="locationSelected"
+            onfocus="this.value=''"
           >
           </vue3-simple-typeahead>
-          <label id="typeahead_id">Type Here⬆️</label>
+          <label style="color: white" id="typeahead_id">Type Here⬆️</label>
         </div>
       </div>
 
@@ -52,12 +58,8 @@
           background-image: linear-gradient(to bottom right, #43a047, #a5d6a7);
         "
       >
-        <!-- {{ temp }} -->
-
-        <!-- <span class="material-icons">cloud</span> -->
-        <!-- Modal Trigger -->
-
         <div class="row">
+          <!-- Modal Trigger -->
           <!-- temperature -->
           <div class="col s12 m12 l3">
             <div
@@ -173,7 +175,6 @@ export default {
       loading: false,
 
       // dashboard display
-      // temperature: "0",
       minTemp: "",
       maxTemp: "",
       dailySignificantWeather: "",
@@ -183,8 +184,6 @@ export default {
       state: "",
       district: "",
       todayDateDisplay: "",
-
-      temp: "",
     };
   },
   methods: {
@@ -345,6 +344,14 @@ export default {
 </script>
 
 <style>
+.simple-typeahead-list-item-text {
+  color: #43a047;
+  font-smooth: always;
+  font-weight: 600;
+}
+input#typeahead_id.simple-typeahead-input {
+  color: white;
+}
 body {
   width: 100%;
   height: 100vh;
