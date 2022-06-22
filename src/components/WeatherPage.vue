@@ -52,21 +52,19 @@
       </div>
 
       <div
-        class="card-panel"
+        class="card-panel modal-trigger"
         style="
+          cursor: pointer;
           margin-top: 40px;
           background-image: linear-gradient(to bottom right, #43a047, #a5d6a7);
         "
+        href="#modalLocation"
       >
         <div class="row">
           <!-- Modal Trigger -->
           <!-- temperature -->
           <div class="col s12 m12 l3">
-            <div
-              class="modal-trigger"
-              style="cursor: pointer; color: white"
-              href="#modalLocation"
-            >
+            <div style="color: white">
               <div class="center" style="font-size: 800%">{{ maxTemp }}°</div>
               <div class="center" style="font-size: 600%">{{ minTemp }}°</div>
             </div>
