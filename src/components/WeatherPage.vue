@@ -1,52 +1,73 @@
 <template>
-  <div class="container">
-    <button class="btn" @click="getGeneralForecast()">General Forecast</button>
+  <body style="background-color: green; position: absolute">
+    <div class="container">
+      <!-- <button class="btn" @click="getGeneralForecast()">General Forecast</button>
     <button class="btn" @click="getDataTypes()">Get Data Types</button>
-    <br />
+    <br /> -->
 
-    <!-- searchbox -->
-    <vue3-simple-typeahead
-      id="typeahead_id"
-      placeholder="Type Here..."
-      :items="this.locationNameList"
-      :minInputLength="1"
-      @selectItem="locationSelected"
-    >
-    </vue3-simple-typeahead>
-    <label id="typeahead_id">Type Here⬆️</label>
+      <div class="card-panel" style="margin-top: 40px">
+        <!-- searchbox -->
+        <vue3-simple-typeahead
+          id="typeahead_id"
+          placeholder="Type Here..."
+          :items="this.locationNameList"
+          :minInputLength="1"
+          @selectItem="locationSelected"
+        >
+        </vue3-simple-typeahead>
+        <label id="typeahead_id">Type Here⬆️</label>
 
-    {{ temp }}
+        {{ temp }}
 
-    <!-- generalforecast -->
-    <table>
-      <thead>
-        <tr>
-          <th>locationrootname</th>
-          <th>locationname</th>
-          <th>date</th>
-          <th>datatype</th>
-          <th>value</th>
-          <th>latitude</th>
-          <th>longitude</th>
-          <th>attributes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="id in generalForecast" v-bind:key="id">
-          <td>{{ id.locationrootname }}</td>
-          <td>{{ id.locationname }}</td>
-          <td>{{ id.date }}</td>
-          <td>{{ id.datatype }}</td>
-          <td>{{ id.value }}</td>
-          <td>{{ id.latitude }}</td>
-          <td>{{ id.longitude }}</td>
-          <td>{{ id.attributes.when }}</td>
-        </tr>
-      </tbody>
-    </table>
+        <span class="material-icons">cloud</span>
 
-    <!-- datatype -->
-    <!-- <table>
+        <!-- Dropdown Trigger -->
+        <a class="dropdown-trigger btn" href="#" data-target="dropdown1"
+          >Drop Me!</a
+        >
+
+        <!-- Dropdown Structure -->
+        <ul id="dropdown1" class="dropdown-content">
+          <li
+            v-for="location in locationNameList"
+            :key="location"
+            @click="locationSelected(location)"
+          >
+            {{ location }}
+          </li>
+        </ul>
+
+        <!-- generalforecast -->
+        <table>
+          <thead>
+            <tr>
+              <th>locationrootname</th>
+              <th>locationname</th>
+              <th>date</th>
+              <th>datatype</th>
+              <th>value</th>
+              <th>latitude</th>
+              <th>longitude</th>
+              <th>attributes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="id in generalForecast" v-bind:key="id">
+              <td>{{ id.locationrootname }}</td>
+              <td>{{ id.locationname }}</td>
+              <td>{{ id.date }}</td>
+              <td>{{ id.datatype }}</td>
+              <td>{{ id.value }}</td>
+              <td>{{ id.latitude }}</td>
+              <td>{{ id.longitude }}</td>
+              <td>{{ id.attributes.when }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- datatype -->
+      <!-- <table>
       <thead>
         <tr>
           <th>id</th>
@@ -65,8 +86,8 @@
       </tbody>
     </table> -->
 
-    <!-- location -->
-    <!-- <table>
+      <!-- location -->
+      <!-- <table>
       <thead>
         <tr>
           <th>id</th>
@@ -88,7 +109,8 @@
         </tr>
       </tbody>
     </table> -->
-  </div>
+    </div>
+  </body>
 </template>
 
 <script>
@@ -105,6 +127,7 @@ export default {
 
       locationIdSave: "",
       todayDateSave: "",
+      locationDropdown: "",
 
       temp: "",
     };
@@ -230,4 +253,8 @@ export default {
 </script>
 
 <style>
+body {
+  width: 100%;
+  height: 100vh;
+}
 </style>
