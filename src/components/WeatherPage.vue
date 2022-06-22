@@ -65,8 +65,8 @@
               style="cursor: pointer; color: white"
               href="#modalLocation"
             >
-              <div class="center" style="font-size: 600%">{{ maxTemp }}°</div>
-              <div class="center" style="font-size: 400%">{{ minTemp }}°</div>
+              <div class="center" style="font-size: 800%">{{ maxTemp }}°</div>
+              <div class="center" style="font-size: 600%">{{ minTemp }}°</div>
             </div>
           </div>
 
@@ -75,41 +75,75 @@
             <div
               class="center"
               id="district"
-              style="color: white; font-size: x-large; margin-top: 20px"
+              style="color: white; font-size: xx-large; margin-top: 30px"
             >
               {{ district }},
             </div>
             <div
               class="center"
               id="state"
-              style="color: white; font-size: large"
+              style="color: white; font-size: x-large"
             >
               {{ state }}
             </div>
-            <div class="center" style="color: white; margin-top: 20px">
+            <div
+              class="center"
+              style="color: white; margin-top: 20px; font-size: large"
+            >
               {{ todayDateDisplay }}
             </div>
             <div
               class="center"
               style="color: white; margin-top: 20px; font-size: large"
             >
-              <span class="material-icons-round">warning</span>
+              <span class="material-icons-round" style="font-size: 300%">{{
+                iconWeatherSelection(dailySignificantWeather)
+              }}</span>
               <br />
-              {{ dailySignificantWeather }}
+              <div style="font-size: larger">
+                {{ dailySignificantWeather }}
+              </div>
             </div>
           </div>
 
           <!-- morning -->
           <div class="col s12 m12 l2">
-            {{ dailyMorning }}
+            <div class="center" style="color: white; margin-top: 90px">
+              <div style="font-size: x-large">Morning</div>
+              <span class="material-icons-round" style="font-size: 300%">{{
+                iconWeatherSelection(dailyMorning)
+              }}</span>
+              <br />
+              <div style="font-size: large">
+                {{ dailyMorning }}
+              </div>
+            </div>
           </div>
           <!-- afternoon -->
           <div class="col s12 m12 l2">
-            {{ dailyAfternoon }}
+            <div class="center" style="color: white; margin-top: 90px">
+              <div style="font-size: x-large">Afternoon</div>
+              <span class="material-icons-round" style="font-size: 300%">{{
+                iconWeatherSelection(dailyAfternoon)
+              }}</span>
+              <br />
+              <div style="font-size: large">
+                {{ dailyAfternoon }}
+              </div>
+            </div>
           </div>
           <!-- night -->
           <div class="col s12 m12 l2">
-            {{ dailyNight }}
+            <div class="center" style="color: white; margin-top: 90px">
+              <div style="font-size: x-large">Night</div>
+              <span class="material-icons-round" style="font-size: 300%">{{
+                iconWeatherSelection(dailyNight)
+              }}</span>
+              <br />
+              <div style="font-size: large">
+                {{ dailyNight }}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -233,10 +267,21 @@ export default {
       }
       return i + "th";
     },
+    iconWeatherSelection(a) {
+      if (a === "No rain") {
+        return "cloud_done";
+      } else if (a === "Isolated rain") {
+        return "water_drop";
+      } else if (a === "Isolated thunderstorms") {
+        return "thunderstorm";
+      } else if (a === "Widespread thunderstorms") {
+        return "thunderstorm";
+      } else {
+        return "wb_sunny";
+      }
+    },
   },
   mounted() {
-    const a = process.env.VUE_APP_TESTING;
-    console.log(a);
     window.M.AutoInit();
 
     const nowDate = new Date();
@@ -255,7 +300,7 @@ export default {
       nowDate.getFullYear();
 
     this.headerToken = {
-      Authorization: `METToken 79a6cd59e081e56a1aea2335888829e118dfa29b`,
+      Authorization: process.env.VUE_APP_TOKEN_AUTH,
     };
 
     let locationHistory = localStorage.getItem("locationIdSave");
