@@ -7,7 +7,6 @@
         position: absolute;
         width: 100%;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.7);
         z-index: 9;
       "
     >
@@ -279,6 +278,7 @@ export default {
     },
   },
   mounted() {
+    this.loading = true;
     window.M.AutoInit();
 
     const nowDate = new Date();
@@ -333,6 +333,9 @@ export default {
             this.locationNameList.push(res[i].data.results[j].name);
           }
         }
+      })
+      .then(() => {
+        this.loading = false;
       })
       .catch((error) => {
         console.error(error);
