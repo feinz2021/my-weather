@@ -1,10 +1,6 @@
 <template>
-  <body
-    style="
-      background-image: linear-gradient(to bottom right, #80cbc4, #e0f2f1);
-      position: absolute;
-    "
-  >
+  <header></header>
+  <body>
     <div
       v-if="loading === true"
       style="
@@ -51,11 +47,11 @@
         </div>
       </div>
 
+      <br />
       <div
         class="card-panel modal-trigger"
         style="
           cursor: pointer;
-          margin-top: 40px;
           background-image: linear-gradient(to bottom right, #43a047, #a5d6a7);
         "
         href="#modalLocation"
@@ -150,7 +146,9 @@
         <!-- ----- -->
       </div>
     </div>
+    <br />
   </body>
+  <footer></footer>
 </template>
 
 <script>

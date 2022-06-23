@@ -14,4 +14,8 @@ export default {
 </script>
 
 <style>
+body {
+  background-image: linear-gradient(to bottom right, #80cbc4, #e0f2f1);
+  height: 100vh;
+}
 </style>
