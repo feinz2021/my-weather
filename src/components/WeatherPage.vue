@@ -3,12 +3,7 @@
   <body>
     <div
       v-if="loading === true"
-      style="
-        position: absolute;
-        width: 100%;
-        height: 100vh;
-        z-index: 9;
-      "
+      style="position: absolute; width: 100%; height: 100vh; z-index: 9"
     >
       <div
         v-if="loading === true"
@@ -262,15 +257,20 @@ export default {
       return i + "th";
     },
     iconWeatherSelection(a) {
-      if (a === "No rain") {
+      const b = a.toUpperCase();
+      if (b === "NO RAIN") {
         return "cloud_done";
-      } else if (a === "Isolated rain") {
+      } else if (b === "ISOLATED RAIN") {
         return "water_drop";
-      } else if (a === "Isolated thunderstorms") {
+      } else if (b === "RAIN") {
+        return "water_drop";
+      } else if (b === "ISOLATED THUNDERSTORMS") {
         return "thunderstorm";
-      } else if (a === "Widespread thunderstorms") {
+      } else if (b === "THUNDERSTORMS") {
         return "thunderstorm";
-      } else if (a === "Scattered thunderstorms") {
+      } else if (b === "WIDESPREAD THUNDERSTORMS") {
+        return "thunderstorm";
+      } else if (b === "SCATTERED THUNDERSTORMS") {
         return "thunderstorm";
       } else {
         return "warning";
